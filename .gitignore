@@ -1,0 +1,5 @@
+/node_modules/
+/.docs/
+/.stats/
+/public/assets/js/
+/public/assets/css/
