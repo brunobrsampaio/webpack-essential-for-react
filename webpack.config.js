@@ -96,19 +96,20 @@ module.exports = (_, env) => {
 		},
 		plugins : [
 			new MiniCssExtractPlugin({
-				filename 	: '../css/[name].css',
+				filename 	: '../css/[name].[chunkhash:8].css',
 				ignoreOrder	: true
 			}),
 			new HtmlWebpackPlugin({
 				template 	: path.resolve(`${resources_path}/index.html`),
 				filename 	: path.resolve(`${public_path}/index.html`),
-				inject		: true,
-				chunks		: [
-					'vendor',
-					'bundle'
+				inject		: true
+			}),
+			production && new CleanWebpackPlugin({
+				cleanOnceBeforeBuildPatterns : [
+					path.join(__dirname, output_path, '..', 'css'),
+					path.join(__dirname, output_path, '..', 'js')
 				]
 			}),
-			production && new CleanWebpackPlugin(),
 			production && new CompressionPlugin({
 				algorithm	: 'gzip',
 				test		: /\.(jsx|js|css)$/,
