@@ -41,8 +41,9 @@ module.exports = (_, env) => {
 		},
 		output  : {
 			path			: path.resolve(__dirname, output_path),
-			filename		: '[name].js',
-			publicPath      : '/js/'
+			filename		: '[name].[chunkhash:8].js',
+			chunkFilename   : '[name].[chunkhash:8].js',
+			publicPath      : '/assets/js/'
 		},
 		devServer: {
 			contentBase         : path.join(__dirname, public_path),
