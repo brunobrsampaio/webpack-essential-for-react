@@ -3,3 +3,5 @@
 /.stats/
 /public/assets/js/
 /public/assets/css/
+/public/index.html
+/package-lock.json

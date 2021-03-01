@@ -23,7 +23,7 @@ const output_path = `${public_path}/assets/js`;
 /**
  * Libs
  */
-const path						= require('path');
+const { join, resolve }			= require('path');
 const TerserPlugin				= require('terser-webpack-plugin');
 const HtmlWebpackPlugin 		= require('html-webpack-plugin');
 const CompressionPlugin 		= require('compression-webpack-plugin');
@@ -37,16 +37,16 @@ module.exports = (_, env) => {
 	return {
 		target  : 'web',
 		entry   : {
-			bundle : path.resolve(`${entry_path}/`, 'App.jsx'),
+			bundle : resolve(`${entry_path}/`, 'App.jsx'),
 		},
 		output  : {
-			path			: path.resolve(__dirname, output_path),
-			filename		: '[name].[chunkhash:8].js',
-			chunkFilename   : '[name].[chunkhash:8].js',
+			path			: resolve(__dirname, output_path),
+			filename		: `[name]${production ? '.[chunkhash:8]' : ''}.js`,
+			chunkFilename   : `[name]${production ? '.[chunkhash:8]' : ''}.js`,
 			publicPath      : '/assets/js/'
 		},
 		devServer: {
-			contentBase         : path.join(__dirname, public_path),
+			contentBase         : join(__dirname, public_path),
 			port                : 3000,
 			compress            : true,
 			watchContentBase    : true,
@@ -97,18 +97,18 @@ module.exports = (_, env) => {
 		},
 		plugins : [
 			new MiniCssExtractPlugin({
-				filename 	: '../css/[name].[chunkhash:8].css',
+				filename 	: `../css/[name]${production ? '.[chunkhash:8]' : ''}.css`,
 				ignoreOrder	: true
 			}),
 			new HtmlWebpackPlugin({
-				template 	: path.resolve(`${resources_path}/index.html`),
-				filename 	: path.resolve(`${public_path}/index.html`),
+				template 	: resolve(`${resources_path}/index.html`),
+				filename 	: resolve(`${public_path}/index.html`),
 				inject		: true
 			}),
 			production && new CleanWebpackPlugin({
 				cleanOnceBeforeBuildPatterns : [
-					path.join(__dirname, output_path, '..', 'css'),
-					path.join(__dirname, output_path, '..', 'js')
+					join(__dirname, output_path, '..', 'css'),
+					join(__dirname, output_path, '..', 'js')
 				]
 			}),
 			production && new CompressionPlugin({
@@ -124,10 +124,10 @@ module.exports = (_, env) => {
 			],
 			modules: [
 				'node_modules',
-				path.resolve(entry_path)
+				resolve(entry_path)
 			],
 			alias: {
-				['~'] : path.resolve(entry_path)
+				['~'] : resolve(entry_path)
 			}
 		},
 		optimization : {
