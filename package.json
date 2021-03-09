@@ -1,10 +1,12 @@
 {
   "name": "webpack-essential-for-react",
   "scripts": {
-    "start": "webpack-dev-server --mode=development",
-    "build:develop": "webpack --mode=development -p",
-    "build:prod": "webpack --mode=production -p",
-    "test": "jest --verbose",
+    "start": "webpack serve --mode development --env NODE_ENV=development",
+	"build:develop": "node --max-old-space-size=4096 node_modules/webpack/bin/webpack.js --mode development --env NODE_ENV=development",
+	"build:stage": "node --max-old-space-size=4096 node_modules/webpack/bin/webpack.js --mode production --env NODE_ENV=development",
+    "build:prod": "node --max-old-space-size=4096 node_modules/webpack/bin/webpack.js --mode production --env NODE_ENV=production",
+    "lint": "eslint ./resources/js/**/*.js",
+	"test": "jest --verbose",
     "docs": "./node_modules/.bin/jsdoc ./resources/js/**/*.js -r -d ./.docs",
     "stats": "mkdir -p ./.stats && webpack --profile --json > ./.stats/stats.json ",
     "analyzer": "npm run stats && webpack-bundle-analyzer ./.stats/stats.json ./public/assets/js"

@@ -23,6 +23,7 @@ const output_path = `${public_path}/assets/js`;
 /**
  * Libs
  */
+const { EnvironmentPlugin } 	= require('webpack');
 const { join, resolve }			= require('path');
 const TerserPlugin				= require('terser-webpack-plugin');
 const HtmlWebpackPlugin 		= require('html-webpack-plugin');
@@ -30,9 +31,9 @@ const CompressionPlugin 		= require('compression-webpack-plugin');
 const { CleanWebpackPlugin }	= require('clean-webpack-plugin');
 const MiniCssExtractPlugin 		= require('mini-css-extract-plugin');
 
-module.exports = (_, env) => {
+module.exports = (_, { mode, env }) => {
 
-	const production = env.mode === 'production';
+	const production = mode === 'production';
 
 	return {
 		target  : 'web',
@@ -105,6 +106,9 @@ module.exports = (_, env) => {
 				filename 	: resolve(`${public_path}/index.html`),
 				inject		: true
 			}),
+			new EnvironmentPlugin({
+				NODE_ENV 	: env.NODE_ENV
+			}),	
 			production && new CleanWebpackPlugin({
 				cleanOnceBeforeBuildPatterns : [
 					join(__dirname, output_path, '..', 'css'),
