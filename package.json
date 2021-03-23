@@ -2,14 +2,14 @@
   "name": "webpack-essential-for-react",
   "scripts": {
     "start": "webpack serve --mode development --env NODE_ENV=development",
-	"build:develop": "node --max-old-space-size=4096 node_modules/webpack/bin/webpack.js --mode development --env NODE_ENV=development",
-	"build:stage": "node --max-old-space-size=4096 node_modules/webpack/bin/webpack.js --mode production --env NODE_ENV=development",
-    "build:prod": "node --max-old-space-size=4096 node_modules/webpack/bin/webpack.js --mode production --env NODE_ENV=production",
+    "build:develop": "webpack --progress --mode development --env NODE_ENV=development",
+    "build:stage": "webpack --mode production --env NODE_ENV=development",
+    "build:prod": "webpack --mode production --env NODE_ENV=production",
     "lint": "eslint ./resources/js/**/*.js",
-	"test": "jest --verbose",
-    "docs": "./node_modules/.bin/jsdoc ./resources/js/**/*.js -r -d ./.docs",
-    "stats": "mkdir -p ./.stats && webpack --profile --json > ./.stats/stats.json ",
-    "analyzer": "npm run stats && webpack-bundle-analyzer ./.stats/stats.json ./public/assets/js"
+    "test": "jest --verbose",
+    "docs": "jsdoc ./resources/js/**/*.js -r -d ./.docs",
+    "stats": "mkdir -p .stats && webpack --profile --json > .stats/stats.json",
+    "analyzer": "npm run stats && webpack-bundle-analyzer .stats/stats.json ./public/assets/js"
   },
   "author": "Bruno Brienza Sampaio <brunobrsampaio@gmail.com> (https://brunosampaio.dev/)",
   "devDependencies": {
@@ -46,10 +46,10 @@
     "bootstrap": "^4.5.3",
     "popper.js": "^1.16.1",
     "prop-types": "^15.7.2",
-	"react": "^17.0.1",
+    "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
-	"react-dom": "^17.0.1",
-	"react-router-dom": "^5.2.0"
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0"
   },
   "jest": {
     "moduleNameMapper": {

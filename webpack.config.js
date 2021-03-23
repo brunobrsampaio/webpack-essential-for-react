@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 /**
  * Pasta raiz aonde se encontram todos os recursos para desenvolvimento
  */
@@ -36,6 +34,7 @@ module.exports = (_, { mode, env }) => {
 	const production = mode === 'production';
 
 	return {
+		mode	: mode ? mode : 'development',
 		target  : 'web',
 		entry   : {
 			bundle : resolve(`${entry_path}/`, 'App.jsx'),
@@ -107,7 +106,7 @@ module.exports = (_, { mode, env }) => {
 				inject		: true
 			}),
 			new EnvironmentPlugin({
-				NODE_ENV 	: env.NODE_ENV
+				NODE_ENV : env ? env.NODE_ENV : 'development'
 			}),	
 			production && new CleanWebpackPlugin({
 				cleanOnceBeforeBuildPatterns : [

@@ -52,6 +52,13 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+		"no-multi-spaces" : "error",
+		"no-multiple-empty-lines" : [
+			"error",
+			{ 
+				"max": 1
+			}
+		]
     }
 }
