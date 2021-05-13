@@ -56,13 +56,6 @@ module.exports = (_, { mode, env }) => {
 				'Access-Control-Allow-Origin' : '*'
 			}
 		},
-		stats : {
-			colors          : true,
-			modules         : false,
-			reasons         : false,
-			errorDetails    : true,
-			entrypoints     : false
-		},
 		module  : {
 			rules: [
 				{
