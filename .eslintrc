@@ -37,13 +37,20 @@
 			"error", 
 			"always"
 		],
+		"keyword-spacing" : [
+			"error", 
+			{
+				"before" : true,
+				"after" : true
+			}
+		],
 		"eol-last": [
 			"error", 
 			"never"
 		],
         "indent": [
             "error",
-            "tab"
+            4
         ],
         "quotes": [
             "error",
@@ -59,6 +66,6 @@
 			{ 
 				"max": 1
 			}
-		]
+		],
     }
 }
