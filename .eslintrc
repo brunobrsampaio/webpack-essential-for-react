@@ -44,7 +44,7 @@
 				"after" : true
 			}
 		],
-		"eol-last": [
+ 		"eol-last": [
 			"error", 
 			"never"
 		],
@@ -67,5 +67,12 @@
 				"max": 1
 			}
 		],
+        "arrow-spacing" : "error",
+        "block-spacing" : "error",
+        "comma-spacing" : "error",
+        "array-bracket-spacing" : [
+            "error", 
+            "always"
+        ]
     }
 }
