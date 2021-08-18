@@ -33,6 +33,13 @@
 				] 
 			}
 		],
+        "react/jsx-curly-spacing": [
+            "error", 
+            {
+                "children": { "when": "always" },
+                "allowMultiline" : true
+            }
+        ],
 		"space-before-function-paren": [
 			"error", 
 			"always"
