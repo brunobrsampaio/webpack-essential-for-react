@@ -5,7 +5,7 @@
     "build:develop": "webpack --progress --mode development --env NODE_ENV=development",
     "build:stage": "webpack --mode production --env NODE_ENV=development",
     "build:prod": "webpack --mode production --env NODE_ENV=production",
-    "lint": "eslint ./resources/js/**/*.js",
+    "lint": "eslint ./resources/js/** --ext .js,.jsx",
     "test": "jest --verbose",
     "docs": "jsdoc ./resources/js/**/*.js -r -d ./.docs",
     "stats": "mkdir -p .stats && webpack --profile --json > .stats/stats.json",
