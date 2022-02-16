@@ -1,16 +1,17 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+const Home = lazy(() => import(/* webpackChunkName: 'home' */'~/views/pages/Home'));
 
 export default () => {
 
-	return (
-		<Suspense fallback={<></>}>
+    return (
+        <Suspense fallback={<></>}>
             <BrowserRouter>
-				<Switch>
-					<Route path="/" component={lazy(() => import(/* webpackPrefetch: true, webpackChunkName: 'home' */'~/views/pages/Home'))} />
-				</Switch>
-			</BrowserRouter>
-		</Suspense>
-	);
+                <Routes>
+                    <Route path="/" element={<Home/>} />
+                </Routes>
+            </BrowserRouter>
+        </Suspense>
+    );
 };
