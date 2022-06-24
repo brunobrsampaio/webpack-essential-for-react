@@ -6,3 +6,4 @@
 /public/
 
 .dccache
+.DS_Store
