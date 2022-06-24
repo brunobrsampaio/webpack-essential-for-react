@@ -28,6 +28,7 @@
 		"jest"
     ],
     "rules": {
+        "react/jsx-no-useless-fragment": "error",
         "react/jsx-closing-bracket-location": "error",
         "react/jsx-curly-newline" : [
             "error", 
@@ -75,6 +76,10 @@
         "react/jsx-curly-spacing": [
             "error"
         ],
+        "arrow-body-style" : [
+            "error",
+            "as-needed"
+        ],
         "space-infix-ops": "error",
 		"space-before-function-paren": [
 			"error", 
@@ -98,7 +103,7 @@
                 "ignoredNodes": [
                     "JSXElement *",
                     "JSXElement"
-                ],
+                ]
             }
         ],
         "quotes": [
@@ -116,6 +121,7 @@
                 "ignoreJSX": "multi-line" 
             }
         ],
+        "no-trailing-spaces": "error",
         "no-useless-escape" :"off",
         "no-shadow" : "error",
 		"no-multi-spaces" : "error",
@@ -125,6 +131,7 @@
 				"max": 1
 			}
 		],
+        "no-return-assign" : "error",
         "arrow-spacing" : "error",
         "block-spacing" : "error",
         "comma-spacing" : "error",

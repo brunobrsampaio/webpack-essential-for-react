@@ -21,11 +21,11 @@ export default class Fetch {
         const url = [ this.url, path ].filter((item) => item).join('/').replace(/([^:])(\/{2,})/g, '$1/');
 
         const response = fetch(url, this.options);
-	
+
         return Promise.race([
             response,
             new Promise((_, reject) =>
-				
+
                 setTimeout(() => {
 
                     this.controller.abort();

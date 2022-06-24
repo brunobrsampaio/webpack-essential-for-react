@@ -8,26 +8,18 @@ const useFetch = (url) => {
 
     const instance = useMemo(() => new Fetch(url), [ url ]);
 
-    const request = (path, options) => {
+    //
+    const request = (path, options) => instance.request(path, options);
 
-        return instance.request(path, options);
-    };
+    //
+    const abort = useCallback(() => instance.abort(), [ instance ]);
 
-    const abort = useCallback(() => {
+    //
+    const headers = () => instance.getHeaders();
 
-        return instance.abort();
-    }, [ instance ]);
+    //
+    useEffect(() => () => abort(), [ abort ]);
 
-    const headers = () => {
-
-        return instance.getHeaders();
-    };
-
-    useEffect(() => {
-
-        return () => abort();
-    }, [ abort ]);
-	
     return [ request, { abort, headers } ];
 };
 
