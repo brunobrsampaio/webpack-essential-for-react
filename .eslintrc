@@ -12,7 +12,8 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-		"plugin:jest/recommended"
+        "plugin:react-hooks/recommended",
+		"plugin:jest/recommended",
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -27,22 +28,54 @@
 		"jest"
     ],
     "rules": {
-		"no-useless-escape" :"off",
+        "react/jsx-closing-bracket-location": "error",
+        "react/jsx-curly-newline" : [
+            "error", 
+            "never"
+        ],
+        "react/jsx-max-props-per-line": [
+            "error", 
+            { 
+                "maximum": 1 
+            }
+        ],
+        "react/jsx-first-prop-new-line": [
+            "error", 
+            "never"
+        ],
+        "react/jsx-indent-props": [
+            "error", 
+            4
+        ],
+        "react/jsx-wrap-multilines" : [
+            "error", 
+            {
+                "declaration": "parens-new-line",
+                "assignment": "parens-new-line",
+                "return": "parens-new-line",
+                "arrow": "parens-new-line",
+                "condition": "parens-new-line",
+                "logical": "parens-new-line",
+                "prop": "parens-new-line"
+            }
+        ],
+        "react/jsx-indent" : [
+            "error", 
+            4
+        ],
 		"react/display-name" : "off",
 		"react/prop-types" : [
-			"error", { 
+			"error", 
+            { 
 				"ignore": [
 					"children"
 				] 
 			}
 		],
         "react/jsx-curly-spacing": [
-            "error", 
-            {
-                "children": { "when": "always" },
-                "allowMultiline" : true
-            }
+            "error"
         ],
+        "space-infix-ops": "error",
 		"space-before-function-paren": [
 			"error", 
 			"always"
@@ -60,7 +93,13 @@
 		],
         "indent": [
             "error",
-            4
+            4,
+            {
+                "ignoredNodes": [
+                    "JSXElement *",
+                    "JSXElement"
+                ],
+            }
         ],
         "quotes": [
             "error",
@@ -70,6 +109,15 @@
             "error",
             "always"
         ],
+        "no-extra-parens": [
+            "error", 
+            "all", 
+            { 
+                "ignoreJSX": "multi-line" 
+            }
+        ],
+        "no-useless-escape" :"off",
+        "no-shadow" : "error",
 		"no-multi-spaces" : "error",
 		"no-multiple-empty-lines" : [
 			"error",
@@ -80,14 +128,20 @@
         "arrow-spacing" : "error",
         "block-spacing" : "error",
         "comma-spacing" : "error",
+        "comma-dangle": [
+            "error", 
+            "never"
+        ],
         "array-bracket-spacing" : [
             "error", 
             "always"
         ],
+        "object-shorthand" : "warn",
         "object-curly-spacing" : [
             "error", "always"
         ],
-        "prefer-const" : "error",
+        "prefer-const" : "warn",
+        "prefer-destructuring": "warn",
  		"jest/no-disabled-tests": "warn",
 		"jest/no-focused-tests": "error",
 		"jest/no-identical-title": "error",

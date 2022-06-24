@@ -1,6 +1,8 @@
-/node_modules/
 /.docs/
 /.stats/
-/public/assets/js/
-/public/assets/css/
-/public/index.html
+
+/node_modules/
+
+/public/
+
+.dccache

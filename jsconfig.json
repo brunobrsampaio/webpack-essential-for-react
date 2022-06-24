@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"jsx": "react",
+		"paths": {
+			"~/*": ["./resources/js/*"],
+	  	}
+	},
+	"exclude": [
+		"node_modules"
+	]
+}

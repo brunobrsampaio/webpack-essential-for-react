@@ -37,7 +37,7 @@ module.exports = (_, { mode, env }) => {
         mode	: mode ? mode : 'development',
         target  : 'web',
         entry   : {
-            bundle : resolve(`${entry_path}/`, 'App.jsx'),
+            bundle : resolve(`${entry_path}/`, 'App.jsx')
         },
         output  : {
             path			: resolve(__dirname, output_path),
@@ -48,7 +48,7 @@ module.exports = (_, { mode, env }) => {
         devServer: {
             devMiddleware : {   
                 writeToDisk : true,
-                publicPath  : join(__dirname, public_path),
+                publicPath  : join(__dirname, public_path)
             },
             headers : {
                 'Access-Control-Allow-Origin' : '*'
@@ -56,7 +56,7 @@ module.exports = (_, { mode, env }) => {
             port                : 3000,
             hot                 : false,
             compress            : true,
-            historyApiFallback  : true,
+            historyApiFallback  : true
         },
         module  : {
             rules: [
@@ -84,11 +84,11 @@ module.exports = (_, { mode, env }) => {
                 filename 	: resolve(`${public_path}/index.html`),
                 inject		: true,
                 templateParameters : {
-                    APP_ENV : env ? env.APP_ENV : 'development',
+                    APP_ENV : env ? env.APP_ENV : 'development'
                 }
             }),
             new EnvironmentPlugin({
-                APP_ENV : env ? env.APP_ENV : 'development',
+                APP_ENV : env ? env.APP_ENV : 'development'
             }),	
             production && new CleanWebpackPlugin({
                 cleanOnceBeforeBuildPatterns : [
@@ -97,7 +97,7 @@ module.exports = (_, { mode, env }) => {
             }),
             production && new CompressionPlugin({
                 algorithm	: 'gzip',
-                test		: /\.(js)$/,
+                test		: /\.(js)$/
             })
         ].filter((plugin) => plugin),
         resolve : {
