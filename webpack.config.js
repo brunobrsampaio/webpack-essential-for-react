@@ -31,112 +31,115 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = (_, { mode, env }) => {
 
-    const production = mode === 'production';
+  const APP_ENV = env ? env.APP_ENV : 'development';
 
-    return {
-        mode	: mode ? mode : 'development',
-        target  : 'web',
-        entry   : {
-            bundle : resolve(`${entry_path}/`, 'App.jsx')
-        },
-        output  : {
-            path			: resolve(__dirname, output_path),
-            filename		: `[name]${production ? '.[chunkhash:8]' : ''}.js`,
-            chunkFilename   : `[name]${production ? '.[chunkhash:8]' : ''}.js`,
-            publicPath      : '/assets/js/'
-        },
-        devServer: {
-            devMiddleware : {   
-                writeToDisk : true,
-                publicPath  : join(__dirname, public_path)
-            },
-            headers : {
-                'Access-Control-Allow-Origin' : '*'
-            },
-            port                : 3000,
-            hot                 : false,
-            compress            : true,
-            historyApiFallback  : true
-        },
-        module  : {
-            rules: [
-                {
-                    test    : /\.(js|jsx)$/,
-                    exclude : /node_modules/,
-                    use 	: [
-                        {
-                            loader : 'babel-loader'
-                        }
-                    ]
-                }
-            ]
-        },
-        plugins : [
-            new ESLintPlugin({
-                extensions : [ 
-                    '.jsx', 
-                    '.js',
-                    '.json'
-                ]
-            }),
-            new HtmlWebpackPlugin({
-                template 	: resolve(`${resources_path}/index.html`),
-                filename 	: resolve(`${public_path}/index.html`),
-                inject		: true,
-                templateParameters : {
-                    APP_ENV : env ? env.APP_ENV : 'development'
-                }
-            }),
-            new EnvironmentPlugin({
-                APP_ENV : env ? env.APP_ENV : 'development'
-            }),	
-            production && new CleanWebpackPlugin({
-                cleanOnceBeforeBuildPatterns : [
-                    resolve(output_path, '..', 'js')
-                ]
-            }),
-            production && new CompressionPlugin({
-                algorithm	: 'gzip',
-                test		: /\.(js)$/
-            })
-        ].filter((plugin) => plugin),
-        resolve : {
-            extensions : [ 
-                '.jsx', 
-                '.js',
-                '.json'
-            ],
-            modules: [
-                'node_modules',
-                resolve(entry_path)
-            ],
-            alias: {
-                ['~'] : resolve(entry_path)
+  const isProduction = APP_ENV === 'production';
+  const isLocal = APP_ENV === 'local';
+
+  return {
+    mode : mode ? mode : 'development',
+    target : 'web',
+    entry : {
+      bundle : resolve(`${entry_path}/`, 'App.jsx')
+    },
+    output : {
+      path : resolve(__dirname, output_path),
+      filename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
+      chunkFilename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
+      publicPath : '/assets/js/'
+    },
+    devServer : {
+      devMiddleware : {
+        writeToDisk : true,
+        publicPath : join(__dirname, public_path)
+      },
+      headers : {
+        'Access-Control-Allow-Origin' : '*'
+      },
+      port : 3000,
+      hot : false,
+      compress : true,
+      historyApiFallback : true
+    },
+    module : {
+      rules : [
+        {
+          test : /\.(js|jsx)$/,
+          exclude : /node_modules/,
+          use : [
+            {
+              loader : 'babel-loader'
             }
-        },
-        optimization : {
-            minimize : true,
-            minimizer : [
-                new TerserPlugin({	
-                    terserOptions : {
-                        output : {
-                            comments : false
-                        }
-                    },
-                    extractComments : false
-                })
-            ],
-            splitChunks : {
-                cacheGroups : {
-                    default : false,
-                    bundle : {
-                        test	: /node_modules/,
-                        name	: 'bundle',
-                        chunks	: 'async',
-                        enforce	: true
-                    }
-                }
-            }
+          ]
         }
-    };
+      ]
+    },
+    plugins : [
+      new ESLintPlugin({
+        extensions : [
+          '.jsx',
+          '.js',
+          '.json'
+        ]
+      }),
+      new HtmlWebpackPlugin({
+        template : resolve(`${resources_path}/index.html`),
+        filename : resolve(`${public_path}/index.html`),
+        inject : true,
+        templateParameters : {
+          APP_ENV
+        }
+      }),
+      new EnvironmentPlugin({
+        APP_ENV
+      }),
+      !isLocal && new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns : [
+          resolve(output_path, '..', 'js')
+        ]
+      }),
+      isProduction && new CompressionPlugin({
+        algorithm : 'gzip',
+        test : /\.(js)$/
+      })
+    ].filter((plugin) => plugin),
+    resolve : {
+      extensions : [
+        '.jsx',
+        '.js',
+        '.json'
+      ],
+      modules : [
+        'node_modules',
+        resolve(entry_path)
+      ],
+      alias : {
+        ['~'] : resolve(entry_path)
+      }
+    },
+    optimization : {
+      minimize : isProduction,
+      minimizer : [
+        new TerserPlugin({
+          terserOptions : {
+            output : {
+              comments : false
+            }
+          },
+          extractComments : false
+        })
+      ],
+      splitChunks : {
+        default : true,
+        cacheGroups : {
+          default : false,
+          bundle : {
+            test : /node_modules/,
+            name : 'bundle',
+            chunks : 'async'
+          }
+        }
+      }
+    }
+  };
 };
