@@ -6,21 +6,21 @@ import Fetch from '~/utils/fetch';
 
 const useFetch = (url) => {
 
-  const instance = useMemo(() => new Fetch(url), [ url ]);
+    const instance = useMemo(() => new Fetch(url), [ url ]);
 
-  //
-  const request = (path, options) => instance.request(path, options);
+    //
+    const request = (path, options) => instance.request(path, options);
 
-  //
-  const abort = useCallback(() => instance.abort(), [ instance ]);
+    //
+    const abort = useCallback(() => instance.abort(), [ instance ]);
 
-  //
-  const headers = () => instance.getHeaders();
+    //
+    const headers = () => instance.getHeaders();
 
-  //
-  useEffect(() => () => abort(), [ abort ]);
+    //
+    useEffect(() => () => abort(), [ abort ]);
 
-  return [ request, { abort, headers } ];
+    return [ request, { abort, headers } ];
 };
 
 export default useFetch;

@@ -1,11 +1,17 @@
 {
 	"compilerOptions": {
-		"baseUrl": ".",
+        "target": "es6",
+        "module": "ESNext",
+        "allowJs": true,
 		"jsx": "react",
+		"baseUrl": "./resources/js",
 		"paths": {
-			"~/*": ["./resources/js/*"],
+			"~/*": ["./*"],
 	  	}
 	},
+    "include": [
+        "resources"
+    ],
 	"exclude": [
 		"node_modules"
 	]

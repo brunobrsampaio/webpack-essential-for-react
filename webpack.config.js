@@ -21,8 +21,8 @@ const output_path = `${public_path}/assets/js`;
 /**
  * Libs
  */
+const { resolve } = require('path');
 const { EnvironmentPlugin } = require('webpack');
-const { join, resolve } = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -31,115 +31,115 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = (_, { mode, env }) => {
 
-  const APP_ENV = env ? env.APP_ENV : 'development';
+    const APP_ENV = env ? env.APP_ENV : 'development';
 
-  const isProduction = APP_ENV === 'production';
-  const isLocal = APP_ENV === 'local';
+    const isProduction = APP_ENV === 'production';
+    const isLocal = APP_ENV === 'local';
 
-  return {
-    mode : mode ? mode : 'development',
-    target : 'web',
-    entry : {
-      bundle : resolve(`${entry_path}/`, 'App.jsx')
-    },
-    output : {
-      path : resolve(__dirname, output_path),
-      filename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
-      chunkFilename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
-      publicPath : '/assets/js/'
-    },
-    devServer : {
-      devMiddleware : {
-        writeToDisk : true,
-        publicPath : join(__dirname, public_path)
-      },
-      headers : {
-        'Access-Control-Allow-Origin' : '*'
-      },
-      port : 3000,
-      hot : false,
-      compress : true,
-      historyApiFallback : true
-    },
-    module : {
-      rules : [
-        {
-          test : /\.(js|jsx)$/,
-          exclude : /node_modules/,
-          use : [
-            {
-              loader : 'babel-loader'
-            }
-          ]
-        }
-      ]
-    },
-    plugins : [
-      new ESLintPlugin({
-        extensions : [
-          '.jsx',
-          '.js',
-          '.json'
-        ]
-      }),
-      new HtmlWebpackPlugin({
-        template : resolve(`${resources_path}/index.html`),
-        filename : resolve(`${public_path}/index.html`),
-        inject : true,
-        templateParameters : {
-          APP_ENV
-        }
-      }),
-      new EnvironmentPlugin({
-        APP_ENV
-      }),
-      !isLocal && new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns : [
-          resolve(output_path, '..', 'js')
-        ]
-      }),
-      isProduction && new CompressionPlugin({
-        algorithm : 'gzip',
-        test : /\.(js)$/
-      })
-    ].filter((plugin) => plugin),
-    resolve : {
-      extensions : [
-        '.jsx',
-        '.js',
-        '.json'
-      ],
-      modules : [
-        'node_modules',
-        resolve(entry_path)
-      ],
-      alias : {
-        ['~'] : resolve(entry_path)
-      }
-    },
-    optimization : {
-      minimize : isProduction,
-      minimizer : [
-        new TerserPlugin({
-          terserOptions : {
-            output : {
-              comments : false
-            }
-          },
-          extractComments : false
-        })
-      ],
-      splitChunks : {
-        default : true,
-        cacheGroups : {
-          default : false,
-          bundle : {
-            test : /node_modules/,
-            name : 'bundle',
-            chunks : 'async'
-          }
-        }
-      }
-    }
-  };
+    return {
+        mode : mode ? mode : 'development',
+        target : 'web',
+        entry : {
+            bundle : resolve(`${entry_path}/`, 'App.jsx'),
+        },
+        output : {
+            path : resolve(__dirname, output_path),
+            filename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
+            chunkFilename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
+            publicPath : '/assets/js/',
+        },
+        devServer : {
+            devMiddleware : {
+                writeToDisk : true,
+                publicPath : '/',
+            },
+            headers : {
+                'Access-Control-Allow-Origin' : '*',
+            },
+            port : 3000,
+            hot : false,
+            compress : true,
+            historyApiFallback : true,
+        },
+        module : {
+            rules : [
+                {
+                    test : /\.(js|jsx)$/,
+                    exclude : /node_modules/,
+                    use : [
+                        {
+                            loader : 'babel-loader',
+                        },
+                    ],
+                },
+            ],
+        },
+        plugins : [
+            new ESLintPlugin({
+                extensions : [
+                    '.jsx',
+                    '.js',
+                    '.json',
+                ],
+            }),
+            new HtmlWebpackPlugin({
+                template : resolve(`${resources_path}/index.html`),
+                filename : resolve(`${public_path}/index.html`),
+                inject : true,
+                templateParameters : {
+                    APP_ENV,
+                },
+            }),
+            new EnvironmentPlugin({
+                APP_ENV,
+            }),
+            !isLocal && new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns : [
+                    resolve(output_path, '..', 'js'),
+                ],
+            }),
+            isProduction && new CompressionPlugin({
+                algorithm : 'gzip',
+                test : /\.(js)$/,
+            }),
+        ].filter((plugin) => plugin),
+        resolve : {
+            extensions : [
+                '.jsx',
+                '.js',
+                '.json',
+            ],
+            modules : [
+                'node_modules',
+                resolve(entry_path),
+            ],
+            alias : {
+                ['~'] : resolve(entry_path),
+            },
+        },
+        optimization : {
+            minimize : isProduction,
+            minimizer : [
+                new TerserPlugin({
+                    terserOptions : {
+                        output : {
+                            comments : false,
+                        },
+                    },
+                    extractComments : false,
+                }),
+            ],
+            splitChunks : {
+                cacheGroups : {
+                    default : false,
+                    bundle : {
+                        test : /node_modules/,
+                        name : 'bundle',
+                        chunks : 'async',
+                    },
+                },
+            },
+        },
+    };
+
 };
