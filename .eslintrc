@@ -86,6 +86,7 @@
             "error",
             "as-needed"
         ],
+        "space-before-blocks" : "error",
         "space-infix-ops": "error",
         "space-before-function-paren": [
             "error", 
