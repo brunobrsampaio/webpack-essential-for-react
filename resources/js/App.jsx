@@ -1,10 +1,16 @@
 /**
  * Libs
  */
-import React from 'react';
-import ReactDom from 'react-dom';
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
 // Routes
 import Routes from '~/Routes';
 
-ReactDom.render(<Routes />, document.getElementById('app'));
+const container = createRoot(document.getElementById('app'));
+
+container.render(
+    <StrictMode>
+        <Routes />
+    </StrictMode>,
+);
