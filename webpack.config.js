@@ -1,24 +1,4 @@
 /**
- * Pasta raiz aonde se encontram todos os recursos para desenvolvimento
- */
-const resources_path = './resources';
-
-/**
- * Pasta publica aonde todos os arquivos compilados serão colocados após o procesos de build
- */
-const public_path	= './public';
-
-/**
- * Pasta aonde esta localizado o arquivo de entrada
- */
-const entry_path = `${resources_path}/js`;
-
-/**
- * Pasta de saida dos arquivos após a compilação
- */
-const output_path = `${public_path}/assets/js`;
-
-/**
  * Libs
  */
 const { resolve } = require('path');
@@ -28,25 +8,55 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const ip = require('ip');
 
-module.exports = (_, { mode, env }) => {
+require('dotenv').config();
 
-    const APP_ENV = env ? env.APP_ENV : 'development';
+module.exports = (_, { mode }) => {
+
+    const APP_ENV = process.env.APP_ENV || 'development';
 
     const isProduction = APP_ENV === 'production';
     const isLocal = APP_ENV === 'local';
 
+    const port = 8080;
+
+    /**
+     * Origem de onde os scripts virão
+     */
+    const ipLocal = `//${ip.address()}`;
+
+    /**
+     * Pasta raiz aonde se encontram todos os recursos para desenvolvimento
+     */
+    const resourcesPath = './resources';
+
+    /**
+     * Pasta publica aonde todos os arquivos compilados serão colocados após o procesos de build
+     */
+    const publicPath	= './public';
+
+    /**
+     * Pasta aonde esta localizado o arquivo de entrada
+     */
+    const entryPath = `${resourcesPath}/js`;
+
+    /**
+     * Pasta de saida dos arquivos após a compilação
+     */
+    const outputPath = `${publicPath}/assets/js`;
+
     return {
-        mode : mode ? mode : 'development',
+        mode,
         target : 'web',
         entry : {
-            bundle : resolve(`${entry_path}/`, 'App.jsx'),
+            bundle : resolve(`${entryPath}/`, 'App.jsx'),
         },
         output : {
-            path : resolve(__dirname, output_path),
+            path : resolve(__dirname, outputPath),
             filename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
             chunkFilename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
-            publicPath : '/assets/js/',
+            publicPath : `${isLocal ? `${ipLocal}:${port}` : ''}/`,
         },
         devServer : {
             devMiddleware : {
@@ -56,7 +66,7 @@ module.exports = (_, { mode, env }) => {
             headers : {
                 'Access-Control-Allow-Origin' : '*',
             },
-            port : 3000,
+            port,
             hot : false,
             compress : true,
             historyApiFallback : true,
@@ -83,8 +93,8 @@ module.exports = (_, { mode, env }) => {
                 ],
             }),
             new HtmlWebpackPlugin({
-                template : resolve(`${resources_path}/index.html`),
-                filename : resolve(`${public_path}/index.html`),
+                template : resolve(`${resourcesPath}/index.html`),
+                filename : resolve(`${publicPath}/index.html`),
                 inject : true,
                 templateParameters : {
                     APP_ENV,
@@ -95,12 +105,12 @@ module.exports = (_, { mode, env }) => {
             }),
             !isLocal && new CleanWebpackPlugin({
                 cleanOnceBeforeBuildPatterns : [
-                    resolve(output_path, '..', 'js'),
+                    resolve(outputPath, '..', 'js'),
                 ],
             }),
             isProduction && new CompressionPlugin({
                 algorithm : 'gzip',
-                test : /\.(js)$/,
+                test : /\.(js|css|svg|png|jpe?|gif|woff|woff2|eot|ttf)$/,
             }),
         ].filter((plugin) => plugin),
         resolve : {
@@ -111,10 +121,10 @@ module.exports = (_, { mode, env }) => {
             ],
             modules : [
                 'node_modules',
-                resolve(entry_path),
+                resolve(entryPath),
             ],
             alias : {
-                ['~'] : resolve(entry_path),
+                ['~'] : resolve(entryPath),
             },
         },
         optimization : {

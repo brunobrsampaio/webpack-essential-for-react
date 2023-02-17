@@ -7,3 +7,4 @@
 
 .dccache
 .DS_Store
+.env
