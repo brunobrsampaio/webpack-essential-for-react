@@ -1,9 +1,3 @@
-## Introdução
-
-Essa é a aplicação front-end padrão de desenvolvimento, englobando todos os módulos existentes dentro do mesma.
-
-## O APP
-
 ### Pré-requisitos
 
 A **stack** utilizada, foi montada utilizando um agrupamento de tecnolgias para melhor flexibilização e personalização do sistema. Abaixo uma lista breve com as tecnologias utilizadas:
