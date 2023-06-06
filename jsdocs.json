@@ -1,19 +1,15 @@
 {
-  "plugins": [
-    "plugins/markdown"
-  ],
+  "plugins": ["plugins/markdown"],
   "recurseDepth": 10,
   "source": {
     "includePattern": ".+\\.js$",
     "excludePattern": "(^|\\/|\\\\)_",
-    "include" : [
-      "./resources"
-    ]
+    "include": ["./resources"]
   },
   "sourceType": "module",
   "tags": {
     "allowUnknownTags": true,
-    "dictionaries": ["jsdoc","closure"]
+    "dictionaries": ["jsdoc", "closure"]
   },
   "templates": {
     "cleverLinks": false,

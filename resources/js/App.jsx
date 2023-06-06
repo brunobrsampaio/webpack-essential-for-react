@@ -10,7 +10,7 @@ import Routes from '~/Routes';
 const container = createRoot(document.getElementById('app'));
 
 container.render(
-    <StrictMode>
-        <Routes />
-    </StrictMode>,
+  <StrictMode>
+    <Routes />
+  </StrictMode>,
 );
