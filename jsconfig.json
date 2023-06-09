@@ -1,9 +1,27 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES6",
     "module": "ESNext",
-    "allowJs": true,
     "jsx": "react",
+    "sourceMap": true,
+    "strict": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationDir" : ".",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noImplicitAny" : false,
+    "types": [
+      "node"
+    ],
+    "noFallthroughCasesInSwitch": true,
+
     "baseUrl": "./resources/js",
     "paths": {
       "~/*": ["./*"]
