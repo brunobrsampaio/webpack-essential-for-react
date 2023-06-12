@@ -12,55 +12,48 @@ const ip = require('ip');
 
 require('dotenv').config();
 
-module.exports = (_, { mode }) => {
+module.exports = () => {
 
   const APP_ENV = process.env.APP_ENV || 'development';
+  const port = process.env.PORT;
 
   const isProduction = APP_ENV === 'production';
   const isLocal = APP_ENV === 'local';
 
-  const port = 8080;
+  /**
+   * Origem de onde os scripts virão
+   */
+  const localhost = `//${ip.address()}`;
 
   /**
-     * Origem de onde os scripts virão
-     */
-  const ipLocal = `//${ip.address()}`;
-
-  /**
-     * Pasta raiz aonde se encontram todos os recursos para desenvolvimento
-     */
+   * Pasta raiz aonde se encontram todos os recursos para desenvolvimento
+   */
   const resourcesPath = './resources';
 
   /**
-     * Pasta publica aonde todos os arquivos compilados serão colocados após o procesos de build
-     */
-  const publicPath	= './public';
+   * Pasta publica aonde todos os arquivos compilados serão colocados após o procesos de build
+   */
+  const distPath	= './public';
 
   /**
-     * Pasta aonde esta localizado o arquivo de entrada
-     */
+   * Pasta aonde esta localizado o arquivo de entrada
+   */
   const entryPath = `${resourcesPath}/js`;
 
-  /**
-     * Pasta de saida dos arquivos após a compilação
-     */
-  const outputPath = `${publicPath}/assets/js`;
-
   return {
-    mode,
     target : 'web',
+    devtool : isProduction ? 'eval' : 'source-map',
     entry : {
       bundle : resolve(`${entryPath}/`, 'App.jsx'),
     },
     output : {
-      path : resolve(__dirname, outputPath),
+      path : resolve(__dirname, distPath),
       filename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
       chunkFilename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
-      publicPath : `${isLocal ? `${ipLocal}:${port}` : ''}/`,
+      publicPath : `${isLocal ? `${localhost}:${port}` : ''}/`,
     },
     devServer : {
       devMiddleware : {
-        writeToDisk : true,
         publicPath : '/',
       },
       headers : {
@@ -94,8 +87,8 @@ module.exports = (_, { mode }) => {
       }),
       new HtmlWebpackPlugin({
         template : resolve(`${resourcesPath}/index.html`),
-        filename : resolve(`${publicPath}/index.html`),
-        inject : true,
+        filename : resolve(`${distPath}/index.html`),
+        inject : 'body',
         templateParameters : {
           APP_ENV,
         },
@@ -105,7 +98,7 @@ module.exports = (_, { mode }) => {
       }),
       !isLocal && new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns : [
-          resolve(publicPath),
+          resolve(distPath),
         ],
       }),
       isProduction && new CompressionPlugin({
