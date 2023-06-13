@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ESNext",
     "module": "ESNext",
     "jsx": "react",
     "sourceMap": true,
@@ -17,9 +17,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noImplicitAny" : false,
-    "types": [
-      "node"
-    ],
     "noFallthroughCasesInSwitch": true,
 
     "baseUrl": "./resources/js",
