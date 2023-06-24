@@ -5,7 +5,7 @@ A **stack** utilizada, foi montada utilizando um agrupamento de tecnolgias para 
  - **Npm**
  - **Webpack**
  - **WebPack Dev Server**
- - **Babel**
+ - **ESBuild**
  - **React**
  - **ESLint**
  - **JSDoc**

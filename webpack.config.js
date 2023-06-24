@@ -3,7 +3,7 @@
  */
 const { resolve } = require('path');
 const { EnvironmentPlugin } = require('webpack');
-const TerserPlugin = require('terser-webpack-plugin');
+const { EsbuildPlugin } = require('esbuild-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -60,20 +60,14 @@ module.exports = () => {
         'Access-Control-Allow-Origin' : '*',
       },
       port,
-      hot : false,
-      compress : true,
       historyApiFallback : true,
     },
     module : {
       rules : [
         {
-          test : /\.(js|jsx)$/,
+          test : /\.jsx?$/,
           exclude : /node_modules/,
-          use : [
-            {
-              loader : 'babel-loader',
-            },
-          ],
+          loader: 'esbuild-loader'
         },
       ],
     },
@@ -120,17 +114,13 @@ module.exports = () => {
         ['~'] : resolve(entryPath),
       },
     },
+    cache: {
+      type: 'filesystem'
+    },
     optimization : {
       minimize : isProduction,
       minimizer : [
-        new TerserPlugin({
-          terserOptions : {
-            output : {
-              comments : false,
-            },
-          },
-          extractComments : false,
-        }),
+        new EsbuildPlugin(),
       ],
       splitChunks : {
         cacheGroups : {

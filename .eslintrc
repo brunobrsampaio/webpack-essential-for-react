@@ -24,7 +24,6 @@
     "ecmaVersion": 11,
     "sourceType": "module"
   },
-  "parser": "@babel/eslint-parser",
   "plugins": ["react", "jest", "import"],
   "rules": {
     "react/jsx-no-useless-fragment": "error",
