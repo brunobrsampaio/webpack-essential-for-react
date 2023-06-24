@@ -42,7 +42,7 @@ module.exports = () => {
 
   return {
     target : 'web',
-    devtool : isProduction ? 'eval' : 'source-map',
+    devtool : !isProduction ? 'cheap-source-map' : false,
     entry : {
       bundle : resolve(`${entryPath}/`, 'App.jsx'),
     },
