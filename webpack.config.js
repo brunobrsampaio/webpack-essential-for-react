@@ -2,7 +2,7 @@
  * Libs
  */
 const { resolve } = require('path');
-const { EnvironmentPlugin } = require('webpack');
+const { EnvironmentPlugin, ProvidePlugin } = require('webpack');
 const { EsbuildPlugin } = require('esbuild-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -84,11 +84,16 @@ module.exports = () => {
         filename : resolve(`${distPath}/index.html`),
         inject : 'body',
         templateParameters : {
+          ...process.env,
           APP_ENV,
         },
       }),
       new EnvironmentPlugin({
+        ...process.env,
         APP_ENV,
+      }),
+      new ProvidePlugin({
+        process: 'process/browser'
       }),
       !isLocal && new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns : [
@@ -125,9 +130,9 @@ module.exports = () => {
       splitChunks : {
         cacheGroups : {
           default : false,
-          bundle : {
+          vendor : {
             test : /node_modules/,
-            name : 'bundle',
+            name : 'vendor',
             chunks : 'async',
           },
         },
