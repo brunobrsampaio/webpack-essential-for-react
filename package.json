@@ -3,52 +3,50 @@
   "scripts": {
     "start": "webpack serve --mode development",
     "build": "webpack --mode production",
-    "postinstall": "npx husky install",
-    "lint": "eslint ./resources --ext .js,.jsx,.json",
-    "test": "jest --verbose --bail --no-cache --passWithNoTests",
+    "postinstall": "npx husky",
+    "lint": "eslint .",
     "docs": "jsdoc -c ./jsdocs.json -r -d ./.docs",
     "stats": "mkdir -p .stats && webpack --profile --json > .stats/stats.json",
     "analyzer": "webpack-bundle-analyzer .stats/stats.json ./public/assets/js"
   },
   "author": "Bruno Brienza Sampaio <brunobrsampaio@gmail.com> (https://brunosampaio.dev/)",
   "devDependencies": {
-    "@testing-library/react": "^14.0.0",
+    "@eslint/js": "^9.12.0",
+    "@stylistic/eslint-plugin": "^2.9.0",
+    "@stylistic/eslint-plugin-jsx": "^2.9.0",
+    "@stylistic/eslint-plugin-ts": "^2.9.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.9.0",
+    "@typescript-eslint/parser": "^8.9.0",
     "@webpack-cli/serve": "^2.0.5",
     "clean-webpack-plugin": "^4.0.0",
-    "compression-webpack-plugin": "^10.0.0",
-    "dotenv": "^16.3.1",
-    "esbuild-loader": "^4.0.2",
-    "eslint": "^8.51.0",
-    "eslint-import-resolver-webpack": "^0.13.7",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-jest": "^27.4.2",
-    "eslint-plugin-json": "^3.1.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-webpack-plugin": "^4.0.1",
-    "html-webpack-plugin": "^5.5.3",
-    "ip": "^1.1.8",
-    "jest": "^29.7.0",
-    "jsdoc": "^4.0.2",
+    "compression-webpack-plugin": "^11.1.0",
+    "dotenv": "^16.4.5",
+    "esbuild-loader": "^4.2.2",
+    "eslint": "^9.12.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-import-resolver-webpack": "^0.13.9",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-json": "^4.0.1",
+    "eslint-plugin-react": "^7.37.1",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-webpack-plugin": "^4.2.0",
+    "html-webpack-plugin": "^5.6.0",
+    "jsdoc": "^4.0.3",
     "process": "^0.11.10",
-    "terser-webpack-plugin": "^5.3.9",
-    "webpack": "^5.88.2",
-    "webpack-bundle-analyzer": "^4.9.1",
+    "terser-webpack-plugin": "^5.3.10",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.9.0",
+    "webpack": "^5.95.0",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
-    "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.16.0"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^\\~(.*)$": "<rootDir>/resources/js/$1"
-    }
-  },
-  "eslintIgnore": [
-    "*.test.js"
-  ]
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.27.0"
+  }
 }
