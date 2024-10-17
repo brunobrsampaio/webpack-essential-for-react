@@ -1,6 +1,3 @@
-/**
- * Libs
- */
 const { resolve } = require('path');
 const { EnvironmentPlugin, ProvidePlugin } = require('webpack');
 const { EsbuildPlugin } = require('esbuild-loader');
@@ -8,22 +5,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const ip = require('ip');
 
 require('dotenv').config();
 
 module.exports = () => {
-
   const APP_ENV = process.env.APP_ENV || 'development';
   const port = process.env.PORT;
 
   const isProduction = APP_ENV === 'production';
   const isLocal = APP_ENV === 'local';
-
-  /**
-   * Origem de onde os scripts virão
-   */
-  const localhost = `//${ip.address()}`;
 
   /**
    * Pasta raiz aonde se encontram todos os recursos para desenvolvimento
@@ -41,49 +31,51 @@ module.exports = () => {
   const entryPath = `${resourcesPath}/js`;
 
   return {
-    target : 'web',
-    devtool : !isProduction ? 'cheap-source-map' : false,
-    entry : {
-      bundle : resolve(`${entryPath}/`, 'App.jsx'),
+    target: 'web',
+    devtool: !isProduction ? 'cheap-source-map' : false,
+    entry: {
+      bundle: resolve(`${entryPath}/`, 'App.tsx'),
     },
-    output : {
-      path : resolve(__dirname, distPath),
-      filename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
-      chunkFilename : `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
-      publicPath : `${isLocal ? `${localhost}:${port}` : ''}/`,
+    output: {
+      path: resolve(__dirname, distPath),
+      filename: `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
+      chunkFilename: `[name]${!isLocal ? '.[chunkhash:8]' : ''}.js`,
+      publicPath: '/',
     },
-    devServer : {
-      devMiddleware : {
-        publicPath : '/',
+    devServer: {
+      devMiddleware: {
+        publicPath: '/',
       },
-      headers : {
-        'Access-Control-Allow-Origin' : '*',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
       },
       port,
-      historyApiFallback : true,
+      historyApiFallback: true,
     },
-    module : {
-      rules : [
+    module: {
+      rules: [
         {
-          test : /\.jsx?$/,
-          exclude : /node_modules/,
-          loader: 'esbuild-loader'
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          loader: 'esbuild-loader',
         },
       ],
     },
-    plugins : [
+    plugins: [
       new ESLintPlugin({
-        extensions : [
-          '.jsx',
+        extensions: [
+          '.tsx',
+          '.ts',
           '.js',
           '.json',
         ],
+        configType: 'flat',
       }),
       new HtmlWebpackPlugin({
-        template : resolve(`${resourcesPath}/index.html`),
-        filename : resolve(`${distPath}/index.html`),
-        inject : 'body',
-        templateParameters : {
+        template: resolve(`${resourcesPath}/index.html`),
+        filename: resolve(`${distPath}/index.html`),
+        inject: 'body',
+        templateParameters: {
           ...process.env,
           APP_ENV,
         },
@@ -93,51 +85,51 @@ module.exports = () => {
         APP_ENV,
       }),
       new ProvidePlugin({
-        process: 'process/browser'
+        process: 'process/browser',
       }),
       !isLocal && new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns : [
+        cleanOnceBeforeBuildPatterns: [
           resolve(distPath),
         ],
       }),
       isProduction && new CompressionPlugin({
-        algorithm : 'gzip',
-        test : /\.(js|css|svg|png|jpe?|gif|woff|woff2|eot|ttf)$/,
+        algorithm: 'gzip',
+        test: /\.(js|css|svg|png|jpe?|gif|woff|woff2|eot|ttf)$/,
       }),
     ].filter((plugin) => plugin),
-    resolve : {
-      extensions : [
-        '.jsx',
+    resolve: {
+      extensions: [
+        '.tsx',
+        '.ts',
         '.js',
         '.json',
       ],
-      modules : [
+      modules: [
         'node_modules',
         resolve(entryPath),
       ],
-      alias : {
-        ['~'] : resolve(entryPath),
+      alias: {
+        ['~']: resolve(entryPath),
       },
     },
     cache: {
-      type: 'filesystem'
+      type: 'filesystem',
     },
-    optimization : {
-      minimize : isProduction,
-      minimizer : [
+    optimization: {
+      minimize: isProduction,
+      minimizer: [
         new EsbuildPlugin(),
       ],
-      splitChunks : {
-        cacheGroups : {
-          default : false,
-          vendor : {
-            test : /node_modules/,
-            name : 'vendor',
-            chunks : 'async',
+      splitChunks: {
+        cacheGroups: {
+          default: false,
+          vendor: {
+            test: /node_modules/,
+            name: 'vendor',
+            chunks: 'async',
           },
         },
       },
     },
   };
-
 };
